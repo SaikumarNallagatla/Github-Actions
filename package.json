@@ -1,6 +1,13 @@
 {
-  "name": "ci-learning",
+  "name": "my-cicd-learning",
+  "version": "1.0.0",
+  "description": "CI/CD + GitOps learning app",
+  "main": "app.js",
   "scripts": {
-    "test": "node test.js"
-  }
+    "start": "node app.js",
+    "test": "node app.js & sleep 2 && curl -f http://localhost:3000/test && kill %1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }
