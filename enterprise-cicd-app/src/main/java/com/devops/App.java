@@ -5,6 +5,6 @@ public class App {
         System.out.println("Hello DevOps World!");
     }
     public String getGreeting() {
-        return ""Hello DevOps!";
+        return "Hello DevOps!";
     }
 }
