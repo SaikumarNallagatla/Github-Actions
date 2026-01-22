@@ -44,3 +44,18 @@ jobs:
         run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
           docker push $REGISTRY/$REPOSITORY:$IMAGE_TAG
+
+# ... (Keep your previous jobs)
+
+  deploy-to-prod:
+    needs: build-and-push   # This job only starts if the ECR push was successful
+    runs-on: ubuntu-latest
+    environment: production  # This triggers the "Approval Gate" we just created
+    
+    steps:
+      - name: Deploy to Production
+        run: |
+          echo "Pulling image from ECR..."
+          echo "Deploying version ${{ github.sha }} to AWS ECS..."
+          # In a real setup, we would run 'aws ecs update-service' here
+          echo "Deployment Successful!"
