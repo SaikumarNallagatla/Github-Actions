@@ -1,17 +1,36 @@
 name: Java CI Pipeline
+
 on:
   pull_request:
-    branches: [ main ] # Only run when a PR is opened to main
+    branches: [ main ] # Triggered only when a PR is opened to main
+
 jobs:
   build:
     runs-on: ubuntu-latest
+    
+    # This is the "Production" way: tell the whole job where to work
+    defaults:
+      run:
+        working-directory: enterprise-cicd-app
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
           cache: 'maven'
+
       - name: Build and Test
+        # Because of 'working-directory' above, Maven knows exactly where the pom.xml is
         run: mvn clean package
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: java-app-package
+          # We still provide the full path relative to the repo root for the upload tool
+          path: enterprise-cicd-app/target/*.jar
